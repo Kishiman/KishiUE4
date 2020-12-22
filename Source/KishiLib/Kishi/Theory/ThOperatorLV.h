@@ -1,33 +1,33 @@
 #pragma once
 
-#include "Kishi/KishiTheory.h"
+#include "Kishi/Theory/Base/Theory.h"
 #include "ThOperatorInt.h"
 template <typename Y, typename X>
 struct ThBaseOperatorLV;
 template <typename S>
 S Unit() { return 1; }
 
-#define EXPRESSION_MUL_BEGIN(CLASS,S)                      \
+#define EXPRESSION_MUL_BEGIN(CLASS, S)              \
     struct CLASS##Mul : UnaryExpression_A<CLASS, S> \
-    {                                                    \
+    {                                               \
         UNARY_A(CLASS##Mul, CLASS, S)
-#define EXPRESSION_MUL_END(CLASS,S)                                          \
-    }                                                                      \
-    ;                                                                      \
-    Ptr<CLASS> operator*(float scalar) const                               \
-    {                                                                      \
+#define EXPRESSION_MUL_END(CLASS, S)                  \
+    }                                                 \
+    ;                                                 \
+    Ptr<CLASS> operator*(S scalar) const              \
+    {                                                 \
         return new CLASS##Mul(SCTHIS(CLASS), scalar); \
     }
 
-#define EXPRESSION_DIV_BEGIN(CLASS,S)                      \
+#define EXPRESSION_DIV_BEGIN(CLASS, S)              \
     struct CLASS##Div : UnaryExpression_A<CLASS, S> \
-    {                                                    \
+    {                                               \
         UNARY_A(CLASS##Div, CLASS, S)
-#define EXPRESSION_DIV_END(CLASS,S)                                          \
-    }                                                                      \
-    ;                                                                      \
-    Ptr<CLASS> operator/(float scalar) const                               \
-    {                                                                      \
+#define EXPRESSION_DIV_END(CLASS, S)                  \
+    }                                                 \
+    ;                                                 \
+    Ptr<CLASS> operator/(S scalar) const              \
+    {                                                 \
         return new CLASS##Div(SCTHIS(CLASS), scalar); \
     }
 template <typename _Y, typename _X = void, template <typename, typename> class Base = ThBaseOperatorLV>

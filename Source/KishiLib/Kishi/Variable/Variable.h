@@ -1,5 +1,5 @@
 #pragma once
-#include "Kishi/KishiMath.h"
+#include "Math.h"
 #include <stdarg.h>
 
 template <typename T>

@@ -3,16 +3,17 @@
 #pragma once
 
 #include "KishiLibDependencies.h"
-#include "Theories/Theories.h"
-#include "Kishi/KishiMath.h"
-#include "Kishi/KishiTheory.h"
-#include "Kishi/KishiData.h"
-#include "Kishi/KishiConverts.h"
-#include "Motion/Motion.h"
-#include "Motion/FStationaryMotion.h"
-#include "Motion/FLinearMotion.h"
-#include "Motion/FKinematicMotion.h"
-#include "Variable/Variable.h"
+#include "Kishi/Theory/Base/TheoryInc.h"
+#include "Kishi/Math.h"
+#include "Kishi/Theory/Base/Theory.h"
+#include "Kishi/Expression.h"
+#include "Kishi/Data.h"
+#include "Kishi/Converts.h"
+#include "Kishi/Motion/Motion.h"
+#include "Kishi/Motion/FStationaryMotion.h"
+#include "Kishi/Motion/FLinearMotion.h"
+#include "Kishi/Motion/FKinematicMotion.h"
+#include "Kishi/Variable/Variable.h"
 class FKishiLibModule : public IModuleInterface
 {
 public:

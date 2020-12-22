@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Motion/Motion.h"
-#include "Kishi/KishiData.h"
+#include "Kishi/Data.h"
 template <typename T>
 class TMotionSequence : public TMotionable<T> // public  ThAdd<MotionInvert<T>, TheoryAssumtion::fullfil, TMotionable<T>>
 {

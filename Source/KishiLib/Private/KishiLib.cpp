@@ -14,7 +14,7 @@ Ptr<ThBaseOperatorLV<int, float>> GetSymbol()
   Sym res = (_ceil + _floor);
   return res.Clone();
 }
-void TestTheories()
+void TestTheory()
 {
   using Sym = ThBaseOperatorLV<int, float>::Sym;
   using Dyn = ThBaseOperatorLV<int, float>::Dyn;
@@ -46,8 +46,8 @@ void TestTheories()
 void FKishiLibModule::StartupModule()
 {
   UE_LOG(LogTemp, Warning, TEXT("KishiLib On"));
-  TestTheories();
-  UE_LOG(LogTemp, Warning, TEXT("Tested Theories"));
+  TestTheory();
+  UE_LOG(LogTemp, Warning, TEXT("Tested Theory"));
   using Symf = TMotionable<float>::Sym;
   using SymV = TMotionable<FVector>::Sym;
   TMotionFrame<float> startF(0, 3, 0);

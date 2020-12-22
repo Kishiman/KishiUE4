@@ -1,6 +1,9 @@
 #pragma once
-#include "Kishi/KishiTheory.h"
+#include "Kishi/Theory/Base/Theory.h"
 
+/*Equal theory.
+requires: operator==()
+impliments: operator!=()*/
 template <typename T, TheoryAssumtion TA, typename... bases>
 class ThEquality : public Theory<ThEquality<T, TA, bases...>>, virtual public bases...
 {

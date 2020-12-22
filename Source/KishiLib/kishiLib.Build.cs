@@ -15,7 +15,8 @@ public class KishiLib : ModuleRules {
         PrivateIncludePaths.AddRange (
             new string[] {
                 // "KishiLib/Kishi",
-                "KishiLib"
+                "KishiLib",
+                "KishiLib/Kishi"
                 // ... add other private include paths required here ...
             }
         );

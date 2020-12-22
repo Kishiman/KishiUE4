@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Motion/TMotionFrame.h"
+#include "Kishi/Motion/TMotionFrame.h"
 #include "MotionFrame.generated.h"
 /**
  * 
@@ -37,5 +37,6 @@ USTRUCT(BlueprintType)
 struct FMotionFrameTR
 {
   GENERATED_USTRUCT_BODY()
+  //TODO
 };
 // using FMotionFrame<FTrandform>=FMotionFrameFV;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "./KishiLibCompatibility.h"
-#include "Kishi/KishiTraits.h"
+#include "./Compatibility.h"
+#include "Kishi/Traits.h"
 
 //KeyMask Template for definig abstract classes
 //template <typename T>

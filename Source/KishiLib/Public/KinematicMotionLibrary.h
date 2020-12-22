@@ -3,7 +3,7 @@
 #pragma once
 
 #include "KishiLib.h"
-#include "Kinematics.h"
+#include "Motion/Kinematics.h"
 #include "MotionFrame.h"
 #include "MotionableLibrary.h"
 #include "Kismet/BlueprintFunctionLibrary.h"

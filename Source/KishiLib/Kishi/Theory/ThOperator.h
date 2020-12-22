@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Kishi/KishiTheory.h"
+#include "Kishi/Theory/Base/Theory.h"
 #define BASEYX Base<Y, X>
 #define BASEXZ Base<X, Z>
 #define BASEYZ Base<Y, Z>
@@ -10,14 +10,14 @@
 #define _BASEYX Base<_Y, _X>
 #define _BASEY Base<_Y, void>
 template <typename Y, typename X>
-struct ThBaseFunc;
+struct ThBaseOperator;
 template <typename Y, typename X, template <typename, typename> class Base>
-struct FuncRoot : Expression<Base<Y, X>>
+struct OperatorRoot : Expression<Base<Y, X>>
 {
-    DOWNSOLVEOVERRIDE(FuncRoot)
+    DOWNSOLVEOVERRIDE(OperatorRoot)
     virtual void DownSolve() override
     {
-        UE_LOG(LogTemp, Warning, TEXT("FuncRoot downsolve (%d)"), this);
+        UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
     };
     struct Sym : public Symbol<BASEYX>
     {
@@ -41,13 +41,28 @@ struct FuncRoot : Expression<Base<Y, X>>
     };
     virtual Y operator()(X x) const = 0;
 };
+#define EXPRESSION_SYM_BEGIN(CLASS)   \
+    struct Sym : public Symbol<CLASS> \
+    {                                 \
+        SYMBOL(Sym, CLASS)
+#define EXPRESSION_SYM_END() \
+    }                        \
+    ;
+
+#define EXPRESSION_DYN_BEGIN(CLASS) \
+    struct Dyn : public CLASS       \
+    {                               \
+        CLONEOVERRIDE(Dyn)
+#define EXPRESSION_DYN_END() \
+    }                        \
+    ;
 template <typename Y, template <typename, typename> class Base>
-struct FuncRoot<Y, void, Base> : Expression<Base<Y, void>>
+struct OperatorRoot<Y, void, Base> : Expression<Base<Y, void>>
 {
-    DOWNSOLVEOVERRIDE(FuncRoot)
+    DOWNSOLVEOVERRIDE(OperatorRoot)
     virtual void DownSolve() override
     {
-        UE_LOG(LogTemp, Warning, TEXT("FuncRoot downsolve (%d)"), this);
+        UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
     };
     virtual Y operator()() const = 0;
     struct Sym : public Symbol<BASEY>
@@ -72,22 +87,22 @@ struct FuncRoot<Y, void, Base> : Expression<Base<Y, void>>
     };
 };
 
-template <typename _Y, typename _X = void, template <typename, typename> class Base = ThBaseFunc>
-struct ThFunc : FuncRoot<_Y, _X, Base>
+template <typename _Y, typename _X = void, template <typename, typename> class Base = ThBaseOperator>
+struct ThOperator : OperatorRoot<_Y, _X, Base>
 {
     template <typename Y, typename X, typename Z>
-    struct ThFuncCascade : HBinaryExpression<Base<Y, X>, Base<X, Z>, Base<Y, Z>>
+    struct ThOperatorCascade : HBinaryExpression<Base<Y, X>, Base<X, Z>, Base<Y, Z>>
     {
-        HBINARY(ThFuncCascade, BASEYX, BASEXZ, BASEYZ)
+        HBINARY(ThOperatorCascade, BASEYX, BASEXZ, BASEYZ)
         virtual Y operator()(Z z) const override
         {
             return (*base::a)((*base::b)(z));
         };
     };
     template <typename Y, typename X>
-    struct ThFuncCascade<Y, X, void> : HBinaryExpression<Base<Y, X>, BASEX, BASEY>
+    struct ThOperatorCascade<Y, X, void> : HBinaryExpression<Base<Y, X>, BASEX, BASEY>
     {
-        HBINARY(ThFuncCascade, BASEYX, BASEX, BASEY)
+        HBINARY(ThOperatorCascade, BASEYX, BASEX, BASEY)
         virtual Y operator()() const override
         {
             return (*base::a)((*base::b)());
@@ -96,7 +111,7 @@ struct ThFunc : FuncRoot<_Y, _X, Base>
     template <typename Z>
     Ptr<Base<_Y, Z>> op(Base<_X, Z> &other)
     {
-        return new ThFuncCascade<_Y, _X, Z>(static_cast<Base<_Y, _X> &>(*this), const_cast<Base<_X, Z> &>(other));
+        return new ThOperatorCascade<_Y, _X, Z>(static_cast<Base<_Y, _X> &>(*this), const_cast<Base<_X, Z> &>(other));
     }
     template <typename Z>
     Ptr<Base<_Y, Z>> op(Ptr<Base<_X, Z>> other)
@@ -105,10 +120,10 @@ struct ThFunc : FuncRoot<_Y, _X, Base>
     }
 };
 template <typename _Y, template <typename, typename> class Base>
-struct ThFunc<_Y, void, Base> : FuncRoot<_Y, void, Base>
+struct ThOperator<_Y, void, Base> : OperatorRoot<_Y, void, Base>
 {
 };
-template <typename Y, typename X=void>
-struct ThBaseFunc : ThFunc<Y, X>
+template <typename Y, typename X = void>
+struct ThBaseOperator : ThOperator<Y, X>
 {
 };

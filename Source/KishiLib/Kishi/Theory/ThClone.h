@@ -1,11 +1,11 @@
 #pragma once
-#include "Kishi/KishiTheory.h"
+#include "Kishi/Theory/Base/Theory.h"
 
 /*Clone theory.
 requires: copy constructor
 impliments: a clone methode*/
 template <typename T, TheoryAssumtion TA, typename... bases>
-class ThClone
+class ThClone : public Theory<ThClone<T, TA, bases...>>, virtual public bases...
 {
 private:
     ThClone(){};
@@ -61,4 +61,10 @@ protected:
     {
         return new T(THIS);
     }
+};
+
+template <typename T>
+Ptr<T> Clone(const Ptr<T> &object)
+{
+    return object->Clone();
 };

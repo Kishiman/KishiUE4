@@ -1,55 +1,58 @@
 #pragma once
 
-#include "Kishi/KishiTheory.h"
+#include "Kishi/Theory/Base/Theory.h"
 #include "ThOperator.h"
 
 template <typename Y, typename X>
 struct ThBaseOperatorInt;
 template <typename S>
 S Zero() { return 0; }
-#define EXPRESSION_ADD_BEGIN(CLASS)                     \
+#define EXPRESSION_ADD_BEGIN(CLASS)             \
     struct CLASS##Add : BinaryExpression<CLASS> \
-    {                                                   \
+    {                                           \
         BINARY(CLASS##Add, CLASS)
-#define EXPRESSION_ADD_END(CLASS) \
-    };\
-    Ptr<CLASS> operator+(CLASS &other) const\
-    {\
-        return new CLASS##Add(SCTHIS(CLASS), static_cast<CLASS &>(other));\
+#define EXPRESSION_ADD_END(CLASS)                                          \
+    }                                                                      \
+    ;                                                                      \
+    Ptr<CLASS> operator+(CLASS &other) const                               \
+    {                                                                      \
+        return new CLASS##Add(SCTHIS(CLASS), static_cast<CLASS &>(other)); \
     }
 
-
-#define EXPRESSION_SUB_BEGIN(CLASS)                     \
+#define EXPRESSION_SUB_BEGIN(CLASS)             \
     struct CLASS##Sub : BinaryExpression<CLASS> \
-    {                                                   \
+    {                                           \
         BINARY(CLASS##Sub, CLASS)
-#define EXPRESSION_SUB_END(CLASS) \
-    };\
-    Ptr<CLASS> operator-(CLASS &other) const\
-    {\
-        return new CLASS##Sub(SCTHIS(CLASS), static_cast<CLASS &>(other));\
+#define EXPRESSION_SUB_END(CLASS)                                          \
+    }                                                                      \
+    ;                                                                      \
+    Ptr<CLASS> operator-(CLASS &other) const                               \
+    {                                                                      \
+        return new CLASS##Sub(SCTHIS(CLASS), static_cast<CLASS &>(other)); \
     }
 
-#define EXPRESSION_SEQ_BEGIN(CLASS)                     \
+#define EXPRESSION_SEQ_BEGIN(CLASS)             \
     struct CLASS##SEQ : BinaryExpression<CLASS> \
-    {                                                   \
+    {                                           \
         BINARY(CLASS##SEQ, CLASS)
-#define EXPRESSION_SEQ_END(CLASS) \
-    };\
-    Ptr<CLASS> operator|(CLASS &other) const\
-    {\
-        return new CLASS##SEQ(SCTHIS(CLASS), static_cast<CLASS &>(other));\
+#define EXPRESSION_SEQ_END(CLASS)                                          \
+    }                                                                      \
+    ;                                                                      \
+    Ptr<CLASS> operator|(CLASS &other) const                               \
+    {                                                                      \
+        return new CLASS##SEQ(SCTHIS(CLASS), static_cast<CLASS &>(other)); \
     }
-#define EXPRESSION_OPP_BEGIN(CLASS)                     \
-    struct CLASS##Opp : UnaryExpression<CLASS>\
-    {\
+#define EXPRESSION_OPP_BEGIN(CLASS)            \
+    struct CLASS##Opp : UnaryExpression<CLASS> \
+    {                                          \
         UNARY(CLASS##Opp, CLASS)
 
-#define EXPRESSION_OPP_END(CLASS) \
-    };\
-    Ptr<CLASS> operator-() const\
-    {\
-        return new CLASS##Opp(SCTHIS(CLASS));\
+#define EXPRESSION_OPP_END(CLASS)             \
+    }                                         \
+    ;                                         \
+    Ptr<CLASS> operator-() const              \
+    {                                         \
+        return new CLASS##Opp(SCTHIS(CLASS)); \
     }
 template <typename _Y, typename _X = void, template <typename, typename> class Base = ThBaseOperatorInt>
 struct ThOperatorInt : ThOperator<_Y, _X, Base>

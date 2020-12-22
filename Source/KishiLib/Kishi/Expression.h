@@ -1,31 +1,11 @@
 #pragma once
-
 #include <memory>
-#include "./KishiData.h"
-#include "./KishiTraits.h"
-#include "./KishiLibCompatibility.h"
+#include "./Data.h"
+#include "./Traits.h"
+#include "./Compatibility.h"
 #include "CoreMinimal.h"
 
-enum TheoryAssumtion
-{
-  fullfil = 0,
-  promise = 1,
-  stand = 2,
-};
-
-template <typename T>
-class Theory
-{
-};
-
-template <template <typename, TheoryAssumtion, typename...> class _Theory, TheoryAssumtion _TA, typename T, typename... dbases>
-class Theory<_Theory<T, _TA, dbases...>> : public virtual Theory<T>
-{
-  friend _Theory<T, _TA, dbases...>;
-
-private:
-  Theory() = default;
-};
+//Pointer rapper that encapsulate a pointer to a class T
 template <typename T>
 struct Ptr
 {
@@ -68,6 +48,7 @@ public:
 private:
   T *ptr;
 };
+//The Base class for Expression
 template <typename T>
 struct Expression
 {
@@ -76,10 +57,22 @@ struct Expression
   {
     UE_LOG(LogTemp, Warning, TEXT("Expression Destractor (%d)'deleted'"), this);
   }
+  /*
+  UpSolve is called by another expression that depends on when destructed.
+  Example: c=a+b
+  ~c() => c.DownSolve()=> a.UpSolve(); b.UpSolve();
+  The expression is harmless by default 
+*/
   virtual void UpSolve()
   {
     UE_LOG(LogTemp, Warning, TEXT("Expression UpSolve (%d)'Harmless'"), this);
   }
+  /*
+  DownSolve is called by the expression when it is destructed. It aims to solve its dependencies if needed 
+  Example: c=a+b
+  ~c() => c.DownSolve()=> a.UpSolve(); b.UpSolve();
+  The expression is harmless by default 
+*/
   virtual void DownSolve() = 0;
   virtual void *Clone() = 0;
 };
@@ -99,7 +92,9 @@ public:                          \
   {                              \
     return new S(*this);         \
   }
-
+/*
+  An Expression that stores a pointer to one object of class T(derives from Expression)
+*/
 template <typename T>
 struct UnaryExpression : public T
 {
@@ -136,7 +131,9 @@ public:                            \
   S(Ptr<T> exp) : base(exp){};     \
   S(T &exp) : base(exp){};         \
   S(const T &exp) : base(exp){};
-
+/*
+  An Expression that stores a pointer to one object of class T (derives from Expression) and a parameter of type A
+*/
 template <typename T, typename A>
 struct UnaryExpression_A : public T
 {
@@ -174,6 +171,9 @@ public:                                 \
   S(T &exp, A a) : base(exp, a){};      \
   S(const T &exp, A a) : base(exp, a){};
 
+/*
+  An Expression that stores pointers to two objects of class T (derives from Expression)
+*/
 template <typename T>
 struct BinaryExpression : public T
 {
@@ -195,7 +195,7 @@ struct BinaryExpression : public T
   BinaryExpression(T *a, T *b) : a(a), b(b){};
   BinaryExpression(Ptr<T> a, Ptr<T> b) : a(a.operator->()), b(b.operator->()){};
   BinaryExpression(T &a, T &b) : a(&a), b(&b){};
-  BinaryExpression(const T &a,const T &b) : a(&(SC_CAST(T,a))), b(&(SC_CAST(T,a))){};
+  BinaryExpression(const T &a, const T &b) : a(&(SC_CAST(T, a))), b(&(SC_CAST(T, a))){};
   virtual void *Clone() override
   {
     a = static_cast<T *>(a->Clone());
@@ -215,7 +215,9 @@ public:                                 \
   S(Ptr<T> a, Ptr<T> b) : base(a, b){}; \
   S(T &a, T &b) : base(a, b){};         \
   S(const T &a, const T &b) : base(a, b){};
-
+/*
+  An Expression that stores pointers to two objects of class T (derives from Expression) and a parameter of type C
+*/
 template <typename T, typename C>
 struct BinaryExpression_A : public T
 {
@@ -237,7 +239,7 @@ struct BinaryExpression_A : public T
   BinaryExpression_A(T *a, T *b, C c) : a(a), b(b), c(c){};
   BinaryExpression_A(Ptr<T> a, Ptr<T> b, C c) : a(a.operator->()), b(b.operator->()), c(c){};
   BinaryExpression_A(T &a, T &b, C c) : a(&a), b(&b), c(c){};
-  BinaryExpression_A(const T &a,const T &b,C c) : a(&(SC_CAST(T,a))), b(&(SC_CAST(T,b))),c(c){};
+  BinaryExpression_A(const T &a, const T &b, C c) : a(&(SC_CAST(T, a))), b(&(SC_CAST(T, b))), c(c){};
 
   virtual void *Clone() override
   {
@@ -259,7 +261,9 @@ public:                                         \
   S(Ptr<T> a, Ptr<T> b, C c) : base(a, b, c){}; \
   S(T &a, T &b, C c) : base(a, b, c){};         \
   S(const T &a, const T &b, C c) : base(a, b, c){};
-
+/*
+  An Expression that stores pointers to two objects of class A and B (both derives from Expression)
+*/
 template <typename A, typename B, typename T>
 struct HBinaryExpression : public T
 {
@@ -282,7 +286,7 @@ struct HBinaryExpression : public T
   HBinaryExpression(A *a, B *b) : a(a), b(b){};
   HBinaryExpression(Ptr<A> a, Ptr<B> b) : a(a.operator->()), b(b.operator->()){};
   HBinaryExpression(A &a, B &b) : a(&a), b(&b){};
-    HBinaryExpression(const T &a,const T &b) : a(&(SC_CAST(A,a))), b(&(SC_CAST(B,b))){};
+  HBinaryExpression(const T &a, const T &b) : a(&(SC_CAST(A, a))), b(&(SC_CAST(B, b))){};
 
   virtual void *Clone() override
   {
@@ -296,14 +300,18 @@ protected:
   B *b;
 };
 
-#define HBINARY(S, A, B, T)                 \
-public:                                     \
-  using base = HBinaryExpression<A, B, T>;  \
-  S(A *a, B *b) : base(a, b){};             \
-  S(Ptr<A> a, Ptr<B> b) : base(a, b){};     \
-  S(A &a, B &b) : base(a, b){};             \
+#define HBINARY(S, A, B, T)                \
+public:                                    \
+  using base = HBinaryExpression<A, B, T>; \
+  S(A *a, B *b) : base(a, b){};            \
+  S(Ptr<A> a, Ptr<B> b) : base(a, b){};    \
+  S(A &a, B &b) : base(a, b){};            \
   S(const A &a, const B &b) : base(a, b){};
 
+/*
+  Symbol of a class T that derives from expression is the type to be used directly to handle dynamically allocated expressions.
+  exmaple: EXPRESSION::Symbol a=new SUBCLASSOFEXPRESSION(...); 
+*/
 template <typename T>
 struct Symbol : public T
 {

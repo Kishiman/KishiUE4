@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Motion/Motion.h"
-#include "Kishi/KishiData.h"
-#include "Kishi/KishiMath.h"
+#include "Kishi/Data.h"
+#include "Math.h"
 
 template <typename T>
 class TMotionOverlay : public TMotionable<T>
