@@ -1,0 +1,3 @@
+[submodule "Source/KishiLib/Kishi"]
+	path = Source/KishiLib/Kishi
+	url = https://github.com/Kishiman/Kishi
