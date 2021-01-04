@@ -1,6 +1,6 @@
 #pragma once
 #include "KishiLib.h"
-#include "Kishi/Motion/Kinematics.h"
+#include "Motion/Kinematics.h"
 #include "MotionFrame.h"
 #include "Motionable.h"
 #include "Kismet/BlueprintFunctionLibrary.h"

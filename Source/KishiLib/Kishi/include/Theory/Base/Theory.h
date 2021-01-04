@@ -1,5 +1,5 @@
 #pragma once
-#include "Kishi/Expression.h"
+#include "Expression/Base/Expression.h"
 
 //The assumption of the theory regarding a class that derives from it
 enum TheoryAssumtion

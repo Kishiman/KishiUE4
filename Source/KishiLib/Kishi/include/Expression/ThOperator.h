@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Kishi/Theory/Base/Theory.h"
+#include "Expression/Base/Expression.h"
 #define BASEYX Base<Y, X>
 #define BASEXZ Base<X, Z>
 #define BASEYZ Base<Y, Z>

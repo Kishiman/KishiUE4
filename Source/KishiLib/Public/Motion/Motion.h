@@ -1,11 +1,11 @@
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Kishi/Motion/TMotionFrame.h"
+#include "KishiAPI.h"
+#include "Motion/TMotionFrame.h"
 #include <memory>
-template <typename T>
-// class TMotionable : public IInvertable<TMotionable<T>, false>
 
+// class TMotionable : public IInvertable<TMotionable<T>, false>
+template <typename T>
 class MotionInvert;
 template <typename T>
 class MotionZero;
@@ -61,7 +61,7 @@ EXPRESSION_OPP_BEGIN(TMotionable)
   };
   virtual TMotionFrame<T> GetMotionFrame(float time) const override
   {
-    return -base::express->GetMotionFrame(time);
+    return -(base::express->GetMotionFrame(time));
   };
 EXPRESSION_OPP_END(TMotionable)
 EXPRESSION_MUL_BEGIN(TMotionable,float)

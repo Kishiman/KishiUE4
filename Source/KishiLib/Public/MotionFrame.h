@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kishi/Motion/TMotionFrame.h"
+#include "Motion/TMotionFrame.h"
 #include "MotionFrame.generated.h"
 /**
  * 

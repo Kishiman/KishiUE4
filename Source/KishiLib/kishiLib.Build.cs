@@ -16,7 +16,8 @@ public class KishiLib : ModuleRules {
             new string[] {
                 // "KishiLib/Kishi",
                 "KishiLib",
-                "KishiLib/Kishi"
+                "KishiLib/Kishi/include",
+                "KishiLib/KishiUE4"
                 // ... add other private include paths required here ...
             }
         );

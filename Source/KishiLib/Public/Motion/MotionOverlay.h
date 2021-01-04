@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CoreMinimal.h"
+#include "KishiAPI.h"
 #include "Motion/Motion.h"
-#include "Kishi/Data.h"
+#include "Data.h"
 #include "Math.h"
 
 template <typename T>

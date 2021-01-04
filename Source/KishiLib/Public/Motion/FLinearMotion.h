@@ -1,9 +1,9 @@
 #pragma once
 
-#include "CoreMinimal.h"
+#include "KishiAPI.h"
 #include "Math.h"
-#include "Kishi/Converts.h"
-#include "Kishi/Data.h"
+#include "Converts.h"
+#include "Data.h"
 #include "Motion/Motion.h"
 #include "Motion/MotionSequence.h"
 #include "Motion/MotionOverlay.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Kishi/Theory/Base/Theory.h"
+#include "Expression/Base/Expression.h"
 #include "ThOperator.h"
 
 template <typename Y, typename X>

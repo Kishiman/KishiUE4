@@ -3,7 +3,7 @@
 #include "./Data.h"
 #include "./Traits.h"
 #include "./Compatibility.h"
-#include "CoreMinimal.h"
+#include "KishiAPI.h"
 
 //Pointer rapper that encapsulate a pointer to a class T
 template <typename T>

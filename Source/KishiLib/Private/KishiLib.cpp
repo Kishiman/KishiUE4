@@ -22,8 +22,8 @@ void TestTheory()
   ThBaseOperatorLV<int>::Dyn two([](){return 2;});
   ThBaseOperatorLV<int>::Dyn three([](){return 3;});
   ThBaseOperatorLV<float,int>::Dyn intTofloat([](int x){return (float)(x);});
-  ThBaseOperatorLV<float, void>::Sym symbol = 7 * intTofloat.op(one + two + three);
-  UE_LOG(LogTemp, Warning, TEXT("(1+2+3)*7=42=%f"), symbol());
+  ThBaseOperatorLV<float, void>::Sym symbol = 7 * intTofloat.op(one - two + three);
+  UE_LOG(LogTemp, Warning, TEXT("(1-2+3)*7=14=%f"), symbol());
   Dyn _floor([](float f) { return floor(f); });
   Dyn _ceil([](float f) { return ceil(f); });
   ThBaseOperatorLV<float, float>::Dyn _power2([](float f) { return powf(f, 2); });

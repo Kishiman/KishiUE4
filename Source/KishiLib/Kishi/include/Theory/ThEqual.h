@@ -1,5 +1,5 @@
 #pragma once
-#include "Kishi/Theory/Base/Theory.h"
+#include "Theory/Base/Theory.h"
 
 /*Equal theory.
 requires: operator==()

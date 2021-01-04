@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CoreMinimal.h"
+#include "KishiAPI.h"
 #include "Motion/Motion.h"
-#include "Kishi/Data.h"
+#include "Data.h"
 template <typename T>
 class TMotionSequence : public TMotionable<T> // public  ThAdd<MotionInvert<T>, TheoryAssumtion::fullfil, TMotionable<T>>
 {
